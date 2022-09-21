@@ -13,10 +13,10 @@ def clip_filter(query, output_folder, indice_folder, num_results=100, threshold=
     import shutil  # pylint: disable=import-outside-toplevel
     from pathlib import Path  # pylint: disable=import-outside-toplevel
     import pandas as pd  # pylint: disable=import-outside-toplevel
-    import clip  # pylint: disable=import-outside-toplevel
+    import open_clip  # pylint: disable=import-outside-toplevel
 
     device = "cuda" if torch.cuda.is_available() else "cpu"
-    model, _ = clip.load("ViT-B/32", device=device, jit=False)
+    model, _, preprocess = open_clip.create_model_and_transforms("ViT-H-14", pretrained='laion2b_s32b_b79k', device=device, jit=False)
 
     data_dir = Path(indice_folder + "/metadata")
     df = pd.concat(pd.read_parquet(parquet_file) for parquet_file in sorted(data_dir.glob("*.parquet")))
@@ -38,7 +38,7 @@ def clip_filter(query, output_folder, indice_folder, num_results=100, threshold=
     if not os.path.exists(output_folder):
         os.mkdir(output_folder)
 
-    text = clip.tokenize([text_input]).to(device)
+    text = open_clip.tokenize([text_input]).to(device)
     text_features = model.encode_text(text)
     text_features /= text_features.norm(dim=-1, keepdim=True)
     query = text_features.cpu().detach().numpy().astype("float32")
