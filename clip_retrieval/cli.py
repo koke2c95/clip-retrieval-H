@@ -1,7 +1,7 @@
 """cli entry point"""
 
 import sys
-sys.path.append('/content/clip-retrieval')
+sys.path.append('/content/clip-retrieval-H')
 
 from clip_retrieval.clip_back_prepro.parquet_to_arrow import parquet_to_arrow
 from clip_retrieval.clip_back import clip_back
