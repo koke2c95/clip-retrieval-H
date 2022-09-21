@@ -3,7 +3,6 @@
 !wget -O animessl.zip https://example.com
 !unzip animessl.zip -d animessl #csv
 
-
 !pip install git+https://github.com/mlfoundations/open_clip.git
 !git clone https://github.com/koke2c95/clip-retrieval-H.git
 %cd clip-retrieval-H
